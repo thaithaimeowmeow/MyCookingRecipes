@@ -5,7 +5,6 @@ namespace App\Livewire\Admin\Tag;
 use App\Models\Tag;
 use Livewire\Component;
 use Illuminate\Support\Str;
-use Masmerise\Toaster\Toaster;
 
 class Create extends Component
 {
@@ -23,7 +22,6 @@ class Create extends Component
             'name' => $this->name,
             'slug' => $slug,
         ]);
-        Toaster::success('Tag created!'); // 👈
         return $this->redirect('/admin/tag/'.$tag->id.'/edit', navigate: true);
 
     }   
