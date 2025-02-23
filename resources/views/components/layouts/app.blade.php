@@ -26,6 +26,8 @@
         <main>
             {{ $slot }}
         </main>
+
+        <x-mary-toast />  
     </div>
 
     @livewireScripts

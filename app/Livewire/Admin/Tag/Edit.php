@@ -5,9 +5,11 @@ namespace App\Livewire\Admin\Tag;
 use App\Models\Tag;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Mary\Traits\Toast;
 
 class Edit extends Component
 {
+    use Toast;
     public $id;
     public $tag;
     public $name;
@@ -27,13 +29,20 @@ class Edit extends Component
         $this->tag->save();
         // dd($this->tag );
         $this->slug = $newSlug;
+        return $this->success(
+            'Changes saved!',
+        );
     }
 
     public function deleteTag()
     {
         $this->tag= Tag::findOrFail($this->id);
         $this->tag->delete();
-        return $this->redirect('/admin/tag/', navigate: true);
+        return $this->success(
+            'Tag deleted!',
+            redirectTo: '/admin/tag/'
+        );
+        // return $this->redirect('/admin/tag/', navigate: true);
     }
 
     function mount()  {
