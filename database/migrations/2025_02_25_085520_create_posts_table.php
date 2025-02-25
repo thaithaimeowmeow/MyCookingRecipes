@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('name');
-            $table->string('image'); 
+            $table->string('slug')->unique();
+            $table->string('image');
             $table->string('video'); 
             $table->string('totalTime'); 
             $table->string('prepTime'); 

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Tag extends Model
 {
@@ -11,4 +13,9 @@ class Tag extends Model
         'name',
         'slug',
     ];
+
+    function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
 }

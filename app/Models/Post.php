@@ -22,4 +22,8 @@ class Post extends Model
     {
         return $this->hasMany(related: Ingredient::class);
     }
+    function tags(): HasMany
+    {
+        return $this->hasMany(related: Tag::class);
+    }
 }
