@@ -20,7 +20,7 @@ class Create extends Component
         $this->validate();
         $slug = Str::slug($this->name);
 
-        $tag = Tag::create([
+        $tag = Tag::create(attributes: [
             'name' => $this->name,
             'slug' => $slug,
         ]);
