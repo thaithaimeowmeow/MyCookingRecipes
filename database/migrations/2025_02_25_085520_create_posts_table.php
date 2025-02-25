@@ -16,10 +16,11 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->text('description');
             $table->string('image');
             $table->string('video'); 
             $table->string('totalTime'); 
-            $table->string('prepTime'); 
+            $table->string(column: 'prepTime'); 
             $table->string('cookTime'); 
             $table->timestamps();
         });
