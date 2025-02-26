@@ -12,7 +12,6 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "*",
         "livewire/volt": "^1.6",
-        "rappasoft/laravel-livewire-tables": "^3.6",
         "robsontenorio/mary": "^1.41"
     },
     "require-dev": {

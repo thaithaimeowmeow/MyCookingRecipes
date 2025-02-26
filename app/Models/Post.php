@@ -4,10 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
+
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'image',
+        'video',
+        'totalTime',
+        'prepTime',
+        'cookTime',
+    ];
+
     function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -22,8 +35,8 @@ class Post extends Model
     {
         return $this->hasMany(related: Ingredient::class);
     }
-    function tags(): HasMany
+    function tags(): BelongsToMany
     {
-        return $this->hasMany(related: Tag::class);
+        return $this->belongsToMany(related: Tag::class);
     }
 }

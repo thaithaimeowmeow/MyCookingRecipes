@@ -7,8 +7,7 @@
                 <x-mary-input label="Recipe name*" wire:model="name" placeholder="Recipe name" icon="m-tag" />
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <x-mary-input label="Prep Time (mins* wire:model="prepTime" placeholder="Prep Time"
-                        icon="m-clock" />
+                    <x-mary-input label="Prep Time (mins)*" wire:model="prepTime" placeholder="Prep Time" icon="m-clock" />
                     <x-mary-input label="Cook Time (mins)*" wire:model="cookTime" placeholder="Cook Time"
                         icon="m-clock" />
                 </div>
@@ -19,8 +18,8 @@
                         hint="Only accept Youtube link" icon="m-video-camera" />
                 </div>
 
-                <x-mary-textarea label="Description*" wire:model="description" placeholder="Enter your description ..."
-                    hint="Max 1000 chars" rows="5" inline />
+                <x-mary-textarea label="Description" wire:model="description" placeholder="Enter your description ..."
+                    hint="Max 1000 chars" rows="5" />
 
                 <x-mary-choices label="Tags*" wire:model="tags_multi_ids" :options="$tags" />
 
@@ -30,14 +29,14 @@
 
                 <div wire:key="ingredient-list">
                     <label class="block text-sm font-medium text-gray-700">Ingredients*</label>
-                    @error("ingredients")
-                        <span class="text-red-500 text-md">{{ $message }}</span>
+                    @error('ingredients')
+                        <span class="text-red-500 text-md">Please insert ingredients for the recipe.</span>
                     @enderror
                     <div class="mt-2 space-y-2">
                         @foreach ($ingredients as $index => $ingredient)
                             <div class="flex items-center space-x-2">
                                 <x-mary-input wire:model.defer="ingredients.{{ $index }}.name"
-                                    placeholder="Ingredient name"/>
+                                    placeholder="Ingredient name" />
                                 <x-mary-input wire:model.defer="ingredients.{{ $index }}.quantity"
                                     placeholder="Quantity" />
                                 <x-mary-button label="✖" wire:click.prevent="removeIngredient({{ $index }})"
@@ -49,7 +48,26 @@
                         class="btn-primary mt-2" />
                 </div>
 
-
+                <div wire:key="step-list">
+                    <label class="block text-sm font-medium text-gray-700">Instruction*</label>
+                    @error('steps')
+                        <span class="text-red-500 text-md">Please insert instruction for the recipe.</span>
+                    @enderror
+                    <div class="mt-2 space-y-2">
+                        @foreach ($steps as $index => $step)
+                            <div class="flex items-center space-x-2">
+                                <div class="flex-1">
+                                    <x-mary-textarea label="Step {{ $index + 1 }}"
+                                        wire:model.defer="steps.{{ $index }}.text"
+                                        placeholder="Write your instruction ..." rows="3" class="w-full" />
+                                </div>
+                                <x-mary-button label="✖" wire:click.prevent="removeStep({{ $index }})"
+                                    class="btn-danger text-sm self-center" />
+                            </div>
+                        @endforeach
+                    </div>
+                    <x-mary-button label="+ Add Step" wire:click.prevent="addStep" class="btn-primary mt-2" />
+                </div>
 
 
 

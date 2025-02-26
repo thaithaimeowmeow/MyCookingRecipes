@@ -2,15 +2,18 @@
 
 namespace App\Livewire\Post;
 
+use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Illuminate\Support\Str;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class Create extends Component
 {
     use Toast;
-
+    use WithFileUploads;
     public Collection $tags;
     public array $tags_multi_ids = [];
 
@@ -22,16 +25,21 @@ class Create extends Component
     public $image;
     public $video;
     public array $ingredients = [];
+    public array $steps = [];
+
 
     protected $rules = [
-        // 'name' => ['required'],
-        // 'description' => ['required'],
-        // 'prepTime' => ['required'],
-        // 'cookTime' => ['required'],
-        // 'tags_multi_ids' => ['required'],
+        'name' => ['required'],
+        'description' => ['required'],
+        'image' => ['required'],
+        'prepTime' => 'required|numeric|min:0',
+        'cookTime' => 'required|numeric|min:0',
+        'tags_multi_ids' => ['required'],
         'ingredients' => ['required'],
         'ingredients.*.name' => 'required|string',
         'ingredients.*.quantity' => 'required|string',
+        'steps' => ['required'],
+        'steps.*.text' => 'required',
     ];
 
     public function addIngredient()
@@ -45,18 +53,51 @@ class Create extends Component
         $this->ingredients = array_values($this->ingredients); // Re-index the array properly
     }
 
+    public function addStep()
+    {
+        $this->steps[] = ['text' => ''];
+    }
+
+    public function removeStep($index)
+    {
+        unset($this->steps[$index]);
+        $this->steps = array_values($this->steps);
+    }
+
     public function save()
     {
         $this->validate();
-        // $this->success('test');
-        dd($this->ingredients);
+        $newPost = auth()->user()->posts()->create(
+            [
+                'name' => $this->name,
+                'slug' => Str::slug($this->name) . '-' . rand(1000, 9999),
+                'image' => $this->image,
+                'video' => $this->video,
+                'prepTime' => $this->prepTime,
+                'cookTime' => $this->cookTime,
+                'totalTime' => (int) $this->prepTime + (int) $this->cookTime,
+                'description' => $this->description,
+            ]
+        );
+
+        $newPost->tags()->attach($this->tags_multi_ids);
+
+        foreach($this->ingredients as $ingredient)
+        {
+            $newPost->ingredients()->create($ingredient);
+        }
+
+        foreach($this->steps as $step)
+        {
+            $newPost->steps()->create($step);
+        }
+
+        dd($newPost);
     }
+
     public function mount()
     {
         $this->tags = Tag::All();
-        // $this->ingredients = [
-        //     ['name' => '', 'quantity' => ''],
-        // ];
     }
 
 
