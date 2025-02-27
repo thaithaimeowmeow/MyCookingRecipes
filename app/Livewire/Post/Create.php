@@ -9,7 +9,6 @@ use Livewire\Component;
 use Mary\Traits\Toast;
 use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
-
 class Create extends Component
 {
     use Toast;
@@ -31,7 +30,7 @@ class Create extends Component
     protected $rules = [
         'name' => ['required'],
         'description' => ['required'],
-        'image' => ['required'],
+        'image' => 'required|image',
         'prepTime' => 'required|numeric|min:0',
         'cookTime' => 'required|numeric|min:0',
         'tags_multi_ids' => ['required'],
@@ -67,11 +66,14 @@ class Create extends Component
     public function save()
     {
         $this->validate();
+
+        $cloudinaryUploadUrl = cloudinary()->upload($this->image->getRealPath())->getSecurePath();
+
         $newPost = auth()->user()->posts()->create(
             [
                 'name' => $this->name,
                 'slug' => Str::slug($this->name) . '-' . rand(1000, 9999),
-                'image' => $this->image,
+                'image' => $cloudinaryUploadUrl,
                 'video' => $this->video,
                 'prepTime' => $this->prepTime,
                 'cookTime' => $this->cookTime,
