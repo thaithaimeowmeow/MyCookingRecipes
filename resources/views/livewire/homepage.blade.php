@@ -38,23 +38,12 @@
 
         <!-- Recipe Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            @php
-                $recipes = [
-                    ['title' => 'Spaghetti Carbonara', 'image' => 'https://source.unsplash.com/600x400/?pasta'],
-                    ['title' => 'Classic Pancakes', 'image' => 'https://source.unsplash.com/600x400/?pancakes'],
-                    ['title' => 'Grilled Chicken Salad', 'image' => 'https://source.unsplash.com/600x400/?salad'],
-                    ['title' => 'Chocolate Cake', 'image' => 'https://source.unsplash.com/600x400/?cake'],
-                    ['title' => 'Sushi Rolls', 'image' => 'https://source.unsplash.com/600x400/?sushi'],
-                    ['title' => 'Homemade Pizza', 'image' => 'https://source.unsplash.com/600x400/?pizza'],
-                ];
-            @endphp
-
-            @foreach ($recipes as $recipe)
+            @foreach ($posts as $post)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="{{ $recipe['image'] }}" class="w-full h-48 object-cover">
+                    <img src="{{ $post->image}}" class="w-full h-48 object-cover">
                     <div class="p-4">
-                        <h3 class="text-xl font-semibold">{{ $recipe['title'] }}</h3>
-                        <x-mary-button small href="#">View Recipe</x-mary-button>
+                        <h3 class="text-xl font-semibold">{{$post->name}}</h3>
+                        <x-mary-button small link="/recipe/{{$post->slug}}">View Recipe</x-mary-button>
                     </div>
                 </div>
             @endforeach
@@ -62,7 +51,7 @@
 
         <!-- Pagination -->
         <div class="mt-8 text-center">
-            <x-mary-button primary>Load More Recipes</x-mary-button>
+            <x-mary-button wire:click.prevent="loadMore" primary>Load More Recipes</x-mary-button>
         </div>
 
     </div>

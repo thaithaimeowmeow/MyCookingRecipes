@@ -22,6 +22,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/', action: App\Livewire\Homepage::class)->name('home');
 Route::get('/recipe/{slug}', action: App\Livewire\Post\Index::class)->name('post.index');
 Route::get('/create', action: App\Livewire\Post\Create::class)->name('create');
+Route::get('/user/{username}', action: App\Livewire\Profile\Index::class)->name('user.index');
+
+
 
 
 Route::get('/admin/tag/', action: App\Livewire\Admin\Tag\Index::class)->name('admin.tag.index');

@@ -94,7 +94,11 @@ class Create extends Component
             $newPost->steps()->create($step);
         }
 
-        dd($newPost);
+        return $this->success(
+            'Post created!',
+            redirectTo: '/recipe/'.$newPost->slug
+        );
+        
     }
 
     public function mount()
