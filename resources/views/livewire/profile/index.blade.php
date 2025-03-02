@@ -7,7 +7,7 @@
             </x-slot:title>
 
             <x-slot:subtitle class="text-gray-500 flex flex-col gap-1 mt-2 pl-2">
-                <x-mary-icon name="o-paper-airplane" label="5 posts" />
+                <x-mary-icon name="o-paper-airplane" label="{{ $user->posts->count() }} posts" />
                 <x-mary-icon name="o-chat-bubble-left" label="20 comments" />
             </x-slot:subtitle>
         </x-mary-avatar>
@@ -20,16 +20,36 @@
             <h1>This user has no posts.</h1>
         @else
             @foreach ($user->posts as $post)
-                <div class="border-b py-4">
-                    <h3 class="text-lg font-medium">
-                        <a href="/recipe/{{ $post->slug }}" class="text-blue-600 hover:underline">
-                            {{ $post->name }}
-                        </a>
-                    </h3>
-                    <p class="text-gray-600 text-sm">{{ Str::limit($post->description, 100) }}</p>
-                    <span class="text-gray-400 text-xs">{{ $post->created_at }}</span>
+                <div class="border-b py-4 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-medium">
+                            <a href="/recipe/{{ $post->slug }}" class="text-blue-600 hover:underline">
+                                {{ $post->name }}
+                            </a>
+                        </h3>
+                        <p class="text-gray-600 text-sm">{{ Str::limit($post->description, 100) }}</p>
+                        <span class="text-gray-400 text-xs">{{ $post->created_at }}</span>
+                    </div>
+
+                    @if($post->user->id == auth()->user()->id)
+                    <div class="flex space-x-2">
+                        <!-- Edit Button -->
+                        <button wire:click="edit({{ $post->id }})" class="text-blue-500 hover:text-blue-700">
+                            <x-mary-icon name="o-pencil" />
+                        </button>
+
+                        <!-- Delete Button -->
+                        <button
+                        type="button"
+                        wire:confirm="Are you sure you want to delete this post? (This action can NOT be reverted)"
+                        wire:click="deletePostWithID({{ $post->id }})" class="text-red-500 hover:text-red-700">
+                            <x-mary-icon name="o-trash" />
+                        </button>
+                    </div>
+                    @endif
                 </div>
             @endforeach
+
         @endif
 
     </div>

@@ -10,6 +10,12 @@ class Index extends Component
     public $post;
     public $slug;
 
+    function toggleLikeFromPost()
+    {
+        auth()->user()->toggleLike($this->post);
+    }
+
+
     public function mount()
     {
         $this->post = Post::where('slug', $this->slug)

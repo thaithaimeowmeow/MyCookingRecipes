@@ -40,10 +40,21 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
             @foreach ($posts as $post)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="{{ $post->image}}" class="w-full h-48 object-cover">
+                    <img src="{{ $post->image }}" class="w-full h-[400px] object-cover">
                     <div class="p-4">
-                        <h3 class="text-xl font-semibold">{{$post->name}}</h3>
-                        <x-mary-button small link="/recipe/{{$post->slug}}">View Recipe</x-mary-button>
+                        <h3 class="text-xl font-semibold">{{ $post->name }}</h3>
+                        <h3 class="text-md">Posted by: <b>{{ $post->user->username }}</b> </h3>
+                        <h3 class="text-md">
+                            @if ($post->likers()->count() > 1)
+                                {{ $post->likers()->count() }} likes
+                            @elseif ($post->likers()->count() == 1)
+                                1 like
+                            @else
+                                0 like
+                            @endif
+                        </h3>
+                        <h3 class="text-md mb-2">{{ $post->totalTime }} minutes</h3>
+                        <x-mary-button small link="/recipe/{{ $post->slug }}">View Recipe</x-mary-button>
                     </div>
                 </div>
             @endforeach
