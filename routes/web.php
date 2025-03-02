@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Admin\Dashboard;
 
@@ -23,7 +24,6 @@ Route::get('/', action: App\Livewire\Homepage::class)->name('home');
 Route::get('/recipe/{slug}', action: App\Livewire\Post\Index::class)->name('post.index');
 Route::get('/create', action: App\Livewire\Post\Create::class)->name('create');
 Route::get('/user/{username}', action: App\Livewire\Profile\Index::class)->name('user.index');
-
 
 
 

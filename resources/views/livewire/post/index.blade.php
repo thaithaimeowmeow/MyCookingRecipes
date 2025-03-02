@@ -1,6 +1,6 @@
 <div>
-    <div class="max-w-6xl mx-auto p-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+    <div class="max-w-6xl mx-auto mt-6 bg-slate-50 px-4 shadow-md pt-2 pb-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Left Column (Image) -->
             <div class="flex justify-center items-center">
                 <img src="{{ $post->image }}" alt="{{ $post->name }}" class="w-full h-[400px] object-cover shadow-md">
@@ -98,6 +98,7 @@
             <!-- Recipe Details -->
             <div class="">
                 <h2 class="text-2xl font-semibold">Ingredients</h2>
+                <h2 class="text-md font-semibold mt-1">Yield: 1 servings </h2>
                 <ul class="mt-2 space-y-1 list-disc list-inside text-gray-700">
                     @foreach ($post->ingredients as $ingredient)
                         <li>{{ $ingredient->quantity . ' ' . $ingredient->name }}</li>
@@ -135,5 +136,39 @@
             </div>
         </div>
 
+        <div class="mt-4">
+            <div class="mt-8">
+                <h2 class="text-xl font-semibold mb-2">Comments</h2>
+                @auth
+                    <x-mary-textarea wire:model="content" class="w-full p-2 border rounded-md"
+                        placeholder="Write a comment..."></x-mary-textarea>
+                    <x-mary-button spinner="Create" wire:click="postComment"
+                        class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md">Post</x-mary-button>
+                    <!-- Modal should be outside the loop -->
+                    <x-mary-modal wire:model="commentEditModal" class="backdrop-blur-sm">
+                        <x-mary-textarea wire:model="content" class="mb-5"></x-mary-textarea>
+                        <div class="flex justify-end space-x-2">
+                            <x-mary-button label="Cancel" @click="$wire.commentEditModal = false" />
+                            <x-mary-button wire:click="editComment({{ $editID }})" label="Save" />
+                        </div>
+                    </x-mary-modal>
+                @else
+                    <p class="text-gray-600 mt-2">You must be logged in to comment.</p>
+                @endauth
+
+
+                <div class="mt-6 space-y-4">
+                    @forelse($post->comments->sortByDesc('created_at') as $comment)
+                        @include('livewire.components.comments')
+
+                    @empty
+                        <p class="text-gray-500">No comments yet.</p>
+                    @endforelse
+                </div>
+            </div>
+
+        </div>
+
     </div>
+
 </div>
