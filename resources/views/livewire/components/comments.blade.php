@@ -23,6 +23,7 @@
 
 
     <!-- Buttons (Edit & Delete) -->
+    @auth
     @if (auth()->user()->id == $comment->user->id)
         <div class="flex gap-2">
             <!-- Edit Button -->
@@ -38,6 +39,6 @@
             </button>
         </div>
     @endif
-
+    @endauth
 
 </div>

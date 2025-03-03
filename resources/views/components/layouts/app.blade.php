@@ -11,7 +11,8 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen">
-        @include('layouts.navigation')
+        {{-- @include('layouts.navigation') --}}
+        @include('components.layouts.header')
 
         <!-- Page Heading -->
         @isset($header)
@@ -32,5 +33,6 @@
 
     @livewireScripts
 </body>
+@include('components.layouts.footer')
 
 </html>
