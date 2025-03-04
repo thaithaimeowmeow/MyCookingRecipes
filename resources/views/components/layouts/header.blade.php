@@ -29,6 +29,7 @@
                     <x-mary-menu-item title="My profile" icon="s-user-circle"
                         link="{{ route('user.index', Auth::user()->username) }}" />
                     <x-mary-menu-item title="Create" icon="o-plus-circle" link="{{ route('create') }}" />
+                    <x-mary-menu-item title="Edit profile" icon="o-pencil" link="{{ route('user.edit',Auth::user()->username) }}" />
                     <x-mary-menu-item icon="o-arrow-right-circle">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

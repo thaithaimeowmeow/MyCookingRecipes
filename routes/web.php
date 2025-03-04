@@ -20,25 +20,26 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
 Route::middleware(['web'])->group(function () {
-    Route::get('/', action: App\Livewire\Homepage::class)->name('home');
-    Route::get('/browse', action: App\Livewire\Browse::class)->name('browse');
-    Route::get('/recipe/{slug}', action: App\Livewire\Post\Index::class)->name('post.index');
-    Route::get('/create', action: App\Livewire\Post\Create::class)->name('create');
-    Route::get('/user/{username}', action: App\Livewire\Profile\Index::class)->name('user.index');
+    Route::middleware('auth')->group(function () {
+        Route::get('/create', \App\Livewire\Post\Create::class)->name('create');
+        Route::get('/user/{username}/edit', \App\Livewire\Profile\Edit::class)->name('user.edit');
+        Route::get('/admin/tag/', \App\Livewire\Admin\Tag\Index::class)->name('admin.tag.index');
+        Route::get('/admin/tag/{id}/edit', \App\Livewire\Admin\Tag\Edit::class)->name('admin.tag.edit');
+        Route::get('/admin/tag/create', \App\Livewire\Admin\Tag\Create::class)->name('admin.tag.create');
 
-    Route::get('/admin/tag/', action: App\Livewire\Admin\Tag\Index::class)->name('admin.tag.index');
-    Route::get('/admin/tag/{id}/edit', action: App\Livewire\Admin\Tag\Edit::class)->name('admin.tag.edit');
-    Route::get('/admin/tag/create', App\Livewire\Admin\Tag\Create::class)->name('admin.tag.create');
+        Route::get('/admin/user/', \App\Livewire\Admin\User\Index::class)->name('admin.user.index');
+        Route::get('/admin/user/{username}/view', \App\Livewire\Admin\User\View::class)->name('admin.user.view');
 
-    Route::get('/admin/user/', action: App\Livewire\Admin\User\Index::class)->name('admin.user.index');
-    Route::get('/admin/user/{username}/view', action: App\Livewire\Admin\User\View::class)->name('admin.user.view');
+        Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
+    });
 
-    Route::get('/admin/dashboard', Dashboard::class)->name('admin.dashboard');
+    Route::get('/', \App\Livewire\Homepage::class)->name('home');
+    Route::get('/browse', \App\Livewire\Browse::class)->name('browse');
+    Route::get('/recipe/{slug}', \App\Livewire\Post\Index::class)->name('post.index');
+    Route::get('/user/{username}', \App\Livewire\Profile\Index::class)->name('user.index');
 
-    require __DIR__.'/auth.php';
-
+    require __DIR__ . '/auth.php';
 });
 
 
@@ -59,4 +60,3 @@ Route::middleware(['web'])->group(function () {
 
 
 // Route::get('/admin/dashboard', Dashboard::class)->name('admin.dashboard');
-
