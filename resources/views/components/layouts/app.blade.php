@@ -9,7 +9,7 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased bg-slate-50">
     <div class="min-h-screen">
         {{-- @include('layouts.navigation') --}}
         @include('components.layouts.header')

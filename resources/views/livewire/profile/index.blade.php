@@ -34,9 +34,9 @@
                     @if($post->user->id == auth()->user()->id)
                     <div class="flex space-x-2">
                         <!-- Edit Button -->
-                        <button wire:click="edit({{ $post->id }})" class="text-blue-500 hover:text-blue-700">
+                        <a href="{{route('post.edit',$post->slug) }}" class="text-blue-500 hover:text-blue-700">
                             <x-mary-icon name="o-pencil" />
-                        </button>
+                        </a>
 
                         <!-- Delete Button -->
                         <button

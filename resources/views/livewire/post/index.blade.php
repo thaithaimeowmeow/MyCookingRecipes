@@ -1,5 +1,5 @@
 <div>
-    <div class="max-w-6xl mx-auto mt-6 bg-slate-50 px-4 shadow-md pt-2 pb-4">
+    <div class="max-w-6xl mx-auto mt-6 bg-white px-4 shadow-md pt-2 pb-4 mb-3">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Left Column (Image) -->
             <div class="flex justify-center items-center">
@@ -7,9 +7,11 @@
             </div>
 
             <!-- Right Column (Content) -->
-            <div class="flex flex-col items-center justify-center p-4 h-full border-b-2">
+            <div class="flex flex-col justify-center p-6 border-b-2 self-stretch">
                 <div class="text-center">
-                    <h1 class="text-4xl font-semibold">{{ $post->name }}</h1>
+                    <h1 class="text-4xl font-semibold break-words md:max-w-xl">
+                        {{ $post->name }}
+                    </h1>
                     <p class="text-gray-600 mt-2">
                         By <a href="{{ route('user.index', $post->user->username) }}"
                             class="font-medium">{{ $post->user->username }}</a>
@@ -37,9 +39,9 @@
                     <div>{{ $post->cookTime }} minutes</div>
                 </div>
 
-                <!-- Upvote section -->
+                <!-- Like section -->
                 <div class="grid grid-cols-2 gap-2 mt-2 w-full items-center">
-                    <div class="font-semibold">Upvote</div>
+                    <div class="font-semibold">Like</div>
                     <div class="flex gap-4">
                         @auth
                             @if ($post->isLikedBy(auth()->user()))
