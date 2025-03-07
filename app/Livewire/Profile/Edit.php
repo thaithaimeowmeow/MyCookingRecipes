@@ -19,6 +19,7 @@ class Edit extends Component
     public $email;
     public User $user;
     public $image;
+    public $avatar;
 
     public $password;
     public $password_confirmation;
@@ -43,6 +44,26 @@ class Edit extends Component
     public function editInfo()
     {
         $this->validate();
+        if ($this->image) {
+            $this->validate([
+                'image' => 'image',
+            ]);
+        }
+        else{
+            return;
+        }
+        
+        // $cloudinaryUploadUrl = cloudinary()->upload($this->image->getRealPath())->getSecurePath();
+        $cloudinaryUploadUrl = cloudinary()->upload($this->image->getRealPath(), [
+            'folder' => 'avatar',
+            'transformation' => [
+                'width' => 500,
+                'height' => 500,
+                'crop' => 'fill'
+            ]
+        ])->getSecurePath();
+
+        $this->user->avatar = $cloudinaryUploadUrl;
         $this->user->username = $this->username;
         $this->user->email = $this->email;
         $this->user->save();
@@ -51,7 +72,7 @@ class Edit extends Component
     }
 
     public function changePassword()
-{
+    {
     $this->validate([
         'password' => [
             'required',
@@ -71,7 +92,7 @@ class Edit extends Component
     $this->success('Password changed successfully!');
     return $this->redirect(route('user.edit',$this->username));
     
-}
+    }
 
 
     public function mount()
@@ -81,6 +102,7 @@ class Edit extends Component
         }
         $this->user = User::where('username', $this->username)->firstOrFail();
         $this->email = $this->user->email;
+        $this->avatar = $this->user->avatar;
     }
 
 

@@ -2,8 +2,14 @@
     <div class="max-w-6xl mx-auto mt-6 bg-white px-4 shadow-md pt-2 pb-4 mb-3">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Left Column (Image) -->
-            <div class="flex justify-center items-center">
+            <div class="relative flex justify-center items-center">
                 <img src="{{ $post->image }}" alt="{{ $post->name }}" class="w-full h-[400px] object-cover shadow-md">
+                @if($post->video)
+                <a href="{{ $post->video }}" target="_blank"
+                    class="absolute bottom-4 right-4 bg-slate-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-gray-700 transition ">
+                    Watch Video
+                </a>
+                @endif
             </div>
 
             <!-- Right Column (Content) -->
@@ -100,7 +106,7 @@
             <!-- Recipe Details -->
             <div class="">
                 <h2 class="text-2xl font-semibold">Ingredients</h2>
-                <h2 class="text-md font-semibold mt-1">Yield: 1 servings </h2>
+                <h2 class="text-md font-semibold mt-1">Yield: {{$post->yields}} </h2>
                 <ul class="mt-2 space-y-1 list-disc list-inside text-gray-700">
                     @foreach ($post->ingredients as $ingredient)
                         <li>{{ $ingredient->quantity . ' ' . $ingredient->name }}</li>

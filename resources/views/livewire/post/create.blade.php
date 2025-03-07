@@ -27,6 +27,10 @@
                     <x-mary-button label="Submit" class="btn-primary" type="submit" spinner="Create" />
                 </x-slot:actions>
 
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <x-mary-input label="Yields*" wire:model="yields" placeholder="2 Servings" />
+                </div>
+
                 <div wire:key="ingredient-list">
                     <label class="block text-sm font-medium text-gray-700">Ingredients*</label>
                     @error('ingredients')

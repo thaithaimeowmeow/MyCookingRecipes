@@ -5,10 +5,12 @@ namespace App\Livewire\Post;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Mary\Traits\Toast;
 use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
+
 class Create extends Component
 {
     use Toast;
@@ -23,6 +25,7 @@ class Create extends Component
     public $description;
     public $image;
     public $video;
+    public $yields;
     public array $ingredients = [];
     public array $steps = [];
 
@@ -34,6 +37,7 @@ class Create extends Component
         'prepTime' => 'required|numeric|min:0',
         'cookTime' => 'required|numeric|min:0',
         'tags_multi_ids' => ['required'],
+        'yields' => ['required'],
         'ingredients' => ['required'],
         'ingredients.*.name' => 'required|string',
         'ingredients.*.quantity' => 'required|string',
@@ -69,6 +73,10 @@ class Create extends Component
 
         $cloudinaryUploadUrl = cloudinary()->upload($this->image->getRealPath())->getSecurePath();
 
+        if ($this->video && !str_contains($this->video, 'youtube.com')) {
+            $this->video = null;
+        }
+        
         $newPost = auth()->user()->posts()->create(
             [
                 'name' => $this->name,
@@ -78,27 +86,25 @@ class Create extends Component
                 'prepTime' => $this->prepTime,
                 'cookTime' => $this->cookTime,
                 'totalTime' => (int) $this->prepTime + (int) $this->cookTime,
+                'yields' => $this->yields,
                 'description' => $this->description,
             ]
         );
 
         $newPost->tags()->attach($this->tags_multi_ids);
 
-        foreach($this->ingredients as $ingredient)
-        {
+        foreach ($this->ingredients as $ingredient) {
             $newPost->ingredients()->create($ingredient);
         }
 
-        foreach($this->steps as $step)
-        {
+        foreach ($this->steps as $step) {
             $newPost->steps()->create($step);
         }
 
         return $this->success(
             'Post created!',
-            redirectTo: '/recipe/'.$newPost->slug
+            redirectTo: '/user/' . Auth::user()->username,
         );
-        
     }
 
     public function mount()

@@ -36,6 +36,6 @@ class Index extends Component
         // return view('livewire.admin.tag.index');
         return view('livewire.admin.user.index', [
             'users' => User::paginate($this->perPage),
-        ]);
+        ])->layout('components.layouts.admin');
     }
 }

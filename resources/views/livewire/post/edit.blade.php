@@ -21,12 +21,18 @@
                 <!-- Time Information in 2 columns -->
                 <div class="grid grid-cols-2 gap-2 w-full">
                     <div class="font-semibold">Prep Time</div>
-                    <div><input wire:model="prepTime" class="w-[50px]" /> minutes</div>
+                    <div><input wire:model="prepTime" class="w-[50px] " /> minutes</div>
 
                     <div class="font-semibold">Cooking Time</div>
-                    <div><input wire:model="cookTime" class="w-[50px]" /> minutes</div>
+                    <div><input wire:model="cookTime" class="w-[50px] " /> minutes</div>
                 </div>
 
+                <div class="grid grid-cols-2 gap-2 mt-2 w-full">
+                    <div class="font-semibold">Video</div>
+                    <div class="flex flex-wrap gap-2">
+                        <x-mary-input wire:model="video" small/>
+                    </div>
+                </div>
 
                 <!-- Tags Section in 2 Columns -->
                 <div class="grid grid-cols-2 gap-2 mt-2 w-full">
@@ -50,7 +56,7 @@
             <!-- Recipe Details -->
             <div class="">
                 <h2 class="text-2xl font-semibold">Ingredients</h2>
-                <h2 class="text-md font-semibold mt-1">Yield: 1 servings </h2>
+                <h2 class="text-md font-semibold mt-1">Yield: <input wire:model="yields" class="w-[100px] " /> </h2>
                 <ul class="mt-2 space-y-1 list-disc list-inside text-gray-700">
                     @foreach ($ingredients as $index => $ingredient)
                         <li class="flex items-center justify-between">

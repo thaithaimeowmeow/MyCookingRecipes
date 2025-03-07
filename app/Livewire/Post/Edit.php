@@ -24,6 +24,7 @@ class Edit extends Component
     public $description;
     public $image;
     public $video;
+    public $yields;
     public array $ingredients = [];
     public array $steps = [];
 
@@ -66,10 +67,17 @@ class Edit extends Component
     {
         $this->validate();
 
+        if ($this->video && !str_contains($this->video, 'youtube.com')) {
+            $this->video = null;
+        }
+
         $this->post->name = $this->name;
+        $this->post->video = $this->video;
         $this->post->description = $this->description;
         $this->post->prepTime = $this->prepTime;
         $this->post->cookTime = $this->cookTime;
+        $this->post->totalTime = (int) $this->prepTime + (int) $this->cookTime;
+        $this->post->yields = $this->yields;
         $this->post->tags()->sync($this->tags_multi_ids);
 
         $this->post->ingredients()->delete();
@@ -104,6 +112,8 @@ class Edit extends Component
         $this->name = $this->post->name;
         $this->prepTime = $this->post->prepTime;
         $this->cookTime = $this->post->cookTime;
+        $this->yields = $this->post->yields;
+        $this->video = $this->post->video;
         $this->description = $this->post->description;
         foreach ($this->post->tags as $tag) {
             $this->tags_multi_ids[] = $tag->id; 

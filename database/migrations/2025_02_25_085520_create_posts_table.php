@@ -16,12 +16,14 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('yields');
             $table->text('description');
             $table->string('image');
-            $table->string('video'); 
+            $table->string('video')->nullable();
             $table->string('totalTime'); 
             $table->string(column: 'prepTime'); 
             $table->string('cookTime'); 
+            $table->boolean('isApproved')->default(false);
             $table->timestamps();
         });
     }

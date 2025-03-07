@@ -26,10 +26,14 @@ class Browse extends Component
 
     public function render()
     {
-        $posts = Post::where('name', 'like', '%' . $this->search . '%') // Search by name
-            ->orWhere('description', 'like', '%' . $this->search . '%') // Search by description
+        $posts = Post::where('isApproved', true) // Ensure only approved posts are retrieved
+            ->where(function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('description', 'like', '%' . $this->search . '%');
+            })
             ->latest()
             ->paginate($this->perPage);
+
 
         return view('livewire.browse', ['posts' => $posts]);
     }

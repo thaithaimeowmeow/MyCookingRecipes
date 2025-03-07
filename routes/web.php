@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommentController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Admin\Dashboard;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -26,14 +26,17 @@ Route::middleware(['web'])->group(function () {
         Route::get('/recipe/{slug}/edit', \App\Livewire\Post\Edit::class)->name('post.edit');
 
         Route::get('/user/{username}/edit', \App\Livewire\Profile\Edit::class)->name('user.edit');
+        Route::group(['middleware' => 'admin'], function () {
+            
+        });
         
-        Route::get('/admin/tag/', \App\Livewire\Admin\Tag\Index::class)->name('admin.tag.index');
-        Route::get('/admin/tag/{id}/edit', \App\Livewire\Admin\Tag\Edit::class)->name('admin.tag.edit');
-        Route::get('/admin/tag/create', \App\Livewire\Admin\Tag\Create::class)->name('admin.tag.create');
-        Route::get('/admin/user/', \App\Livewire\Admin\User\Index::class)->name('admin.user.index');
-        Route::get('/admin/user/{username}/view', \App\Livewire\Admin\User\View::class)->name('admin.user.view');
+        Route::get('/admin/tag/', \App\Livewire\Admin\Tag\Index::class)->middleware(IsAdmin::class)->name('admin.tag.index');
+        Route::get('/admin/tag/{id}/edit', \App\Livewire\Admin\Tag\Edit::class)->middleware(IsAdmin::class)->name('admin.tag.edit');
+        Route::get('/admin/tag/create', \App\Livewire\Admin\Tag\Create::class)->middleware(IsAdmin::class)->name('admin.tag.create');
+        Route::get('/admin/user/', \App\Livewire\Admin\User\Index::class)->middleware(IsAdmin::class)->name('admin.user.index');
+        Route::get('/admin/user/{username}/view', \App\Livewire\Admin\User\View::class)->middleware(IsAdmin::class)->name('admin.user.view');
 
-        // Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
+        Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->middleware(IsAdmin::class)->name('admin.dashboard');
     });
 
     Route::get('/', \App\Livewire\Homepage::class)->name('home');

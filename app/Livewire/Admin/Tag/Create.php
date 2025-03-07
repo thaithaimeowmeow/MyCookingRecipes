@@ -25,16 +25,16 @@ class Create extends Component
             'slug' => $slug,
         ]);
 
-        return $this->success(
-            'Tag created!',
-            redirectTo: '/admin/tag/'.$tag->id.'/edit'
+        $this->success(
+            'Tag created!'
         );
 
-        // return $this->redirect('/admin/tag/'.$tag->id.'/edit', navigate: true);
+        return redirect()->to('/admin/tag/'.$tag->id.'/edit');
+
 
     }   
     public function render()
     {
-        return view('livewire.admin.tag.create');
+        return view('livewire.admin.tag.create')->layout('components.layouts.admin');
     }
 }

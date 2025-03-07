@@ -9,7 +9,7 @@
                         <img src="{{ $image->temporaryUrl() }}">
                     @else
                         <img
-                            src="{{ Auth::user()->profile_photo ? asset('storage/' . Auth::user()->profile_photo) : asset('images/default-avatar.png') }}">
+                            src="{{ $avatar ? asset($avatar) : asset('images/default-avatar.png') }}">
                     @endif
                 </div>
             </div>
