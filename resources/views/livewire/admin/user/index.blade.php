@@ -7,7 +7,7 @@
 
 
         <div class="shadow my-4 pb-2">
-            <x-mary-table :headers="$headers" :rows="$users" with-pagination per-page="perPage" :per-page-values="[10, 25]"
+            <x-mary-table class="bg-white" :headers="$headers" :rows="$users" with-pagination per-page="perPage" :per-page-values="[10, 25]"
                 link="/admin/user/{username}/view" striped>
                 <x-slot:empty>
                     <x-mary-icon name="o-trash" label="It is empty." />

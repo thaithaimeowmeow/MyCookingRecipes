@@ -4,6 +4,7 @@ namespace App\Livewire\Post;
 
 use App\Models\Post;
 use App\Models\Tag;
+use App\Services\NotificationService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -29,6 +30,12 @@ class Create extends Component
     public array $ingredients = [];
     public array $steps = [];
 
+    private $notificationService;
+
+    public function boot(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
 
     protected $rules = [
         'name' => ['required'],
@@ -101,8 +108,10 @@ class Create extends Component
             $newPost->steps()->create($step);
         }
 
+        $this->notificationService->createApproval( $newPost->id,auth()->user()->id);
+        
         return $this->success(
-            'Post created!',
+            'Your post is waiting for approval.',
             redirectTo: '/user/' . Auth::user()->username,
         );
     }

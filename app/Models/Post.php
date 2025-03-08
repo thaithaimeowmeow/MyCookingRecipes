@@ -47,5 +47,9 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+    function reports(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
 
 }

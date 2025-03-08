@@ -4,11 +4,11 @@
             <!-- Left Column (Image) -->
             <div class="relative flex justify-center items-center">
                 <img src="{{ $post->image }}" alt="{{ $post->name }}" class="w-full h-[400px] object-cover shadow-md">
-                @if($post->video)
-                <a href="{{ $post->video }}" target="_blank"
-                    class="absolute bottom-4 right-4 bg-slate-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-gray-700 transition ">
-                    Watch Video
-                </a>
+                @if ($post->video)
+                    <a href="{{ $post->video }}" target="_blank"
+                        class="absolute bottom-4 right-4 bg-slate-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-gray-700 transition ">
+                        Watch Video
+                    </a>
                 @endif
             </div>
 
@@ -82,6 +82,7 @@
                     </div>
                 </div>
 
+
                 <!-- Tags Section in 2 Columns -->
                 <div class="grid grid-cols-2 gap-2 mt-2 w-full">
                     <div class="font-semibold">Tags</div>
@@ -91,7 +92,16 @@
                         @endforeach
                     </div>
                 </div>
+                @auth
+                <div class="grid grid-cols-2 gap-2 mt-2 w-full">
+                    <div class="font-semibold">Action</div>
+                    <div class="flex flex-wrap gap-2">
+                        @livewire('post.report-modal', ['post_id' => $post->id])
+                    </div>
+                </div>
+                @endauth
             </div>
+
 
             <!-- Right Column (Description) -->
             <div>
@@ -106,7 +116,7 @@
             <!-- Recipe Details -->
             <div class="">
                 <h2 class="text-2xl font-semibold">Ingredients</h2>
-                <h2 class="text-md font-semibold mt-1">Yield: {{$post->yields}} </h2>
+                <h2 class="text-md font-semibold mt-1">Yield: {{ $post->yields }} </h2>
                 <ul class="mt-2 space-y-1 list-disc list-inside text-gray-700">
                     @foreach ($post->ingredients as $ingredient)
                         <li>{{ $ingredient->quantity . ' ' . $ingredient->name }}</li>
@@ -143,6 +153,8 @@
                     @endforeach --}}
             </div>
         </div>
+
+
 
         <div class="mt-4">
             <div class="mt-8">
