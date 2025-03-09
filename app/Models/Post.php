@@ -23,6 +23,7 @@ class Post extends Model
         'totalTime',
         'prepTime',
         'cookTime',
+        'isApproved',
     ];
 
     function user(): BelongsTo

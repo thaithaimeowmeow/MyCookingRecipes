@@ -35,6 +35,7 @@ Route::middleware(['web'])->group(function () {
         Route::get('/admin/tag/create', \App\Livewire\Admin\Tag\Create::class)->middleware(IsAdmin::class)->name('admin.tag.create');
         Route::get('/admin/user/', \App\Livewire\Admin\User\Index::class)->middleware(IsAdmin::class)->name('admin.user.index');
         Route::get('/admin/user/{username}/view', \App\Livewire\Admin\User\View::class)->middleware(IsAdmin::class)->name('admin.user.view');
+        Route::get('/recipe/{slug}/preview', \App\Livewire\Post\Preview::class)->middleware(IsAdmin::class)->name('post.preview');
 
         Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->middleware(IsAdmin::class)->name('admin.dashboard');
     });

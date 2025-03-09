@@ -61,8 +61,9 @@
 
             <!-- Pagination -->
             <div class="mt-8 text-center">
-                <x-mary-button wire:click.prevent="loadMore" primary>Load More Recipes</x-mary-button>
+                {{ $posts->links() }}
             </div>
+            
 
         </div>
     </div>
