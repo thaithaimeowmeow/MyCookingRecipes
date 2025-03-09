@@ -3,12 +3,13 @@
         <h1 class="text-5xl font-bold text-gray-800 mb-6">Users Manager</h1>
 
         {{-- You can use any `$wire.METHOD` on `@row-click` --}}
+        <x-mary-input type="text" wire:model.debounce.300="search" placeholder="Search..." />
 
+        <div wire:poll.300ms>Current search: {{ $search }}</div>
 
-
-        <div class="shadow my-4 pb-2">
-            <x-mary-table class="bg-white" :headers="$headers" :rows="$users" with-pagination per-page="perPage" :per-page-values="[10, 25]"
-                link="/admin/user/{username}/view" striped>
+        <div wire:poll.300ms class="shadow my-4 pb-2">
+            <x-mary-table class="bg-white" :headers="$headers" :rows="$users" with-pagination per-page="perPage"
+                :per-page-values="[10, 25]" link="/admin/user/{username}/view" striped>
                 <x-slot:empty>
                     <x-mary-icon name="o-trash" label="It is empty." />
                 </x-slot:empty>

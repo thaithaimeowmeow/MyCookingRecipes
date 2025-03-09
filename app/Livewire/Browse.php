@@ -12,6 +12,7 @@ class Browse extends Component
 
     public $perPage = 10;
     public $search = '';  // <-- Add search property
+    
     // public function loadMore()
     // {
     //     $this->perPage += 5;

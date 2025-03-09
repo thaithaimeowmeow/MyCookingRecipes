@@ -12,6 +12,9 @@ class Index extends Component
 {
     use WithPagination; 
     use Toast;
+
+    public $search = '';
+    
     public int $perPage = 10;
 
     public $headers = [
@@ -31,11 +34,23 @@ class Index extends Component
         $this->success('We are done, check it out');
     }
 
+    public function updateSearch()
+    {
+        $this->resetPage();
+        $this->perPage = 10;
+    }
+
     public function render()
     {
+
+        $users = User::where(function ($query) {
+            $query->where('username', 'like', '%' . $this->search . '%')
+                ->orWhere('email', 'like', '%' . $this->search . '%');
+        })->paginate($this->perPage); 
+
         // return view('livewire.admin.tag.index');
         return view('livewire.admin.user.index', [
-            'users' => User::paginate($this->perPage),
+            'users' => $users,
         ])->layout('components.layouts.admin');
     }
 }

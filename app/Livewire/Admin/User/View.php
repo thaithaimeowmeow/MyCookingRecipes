@@ -15,6 +15,9 @@ class View extends Component
     public $user;
     public $username;
 
+
+    
+
     public function deletePostWithID($id)
     {
         $post = Post::findOrFail($id);

@@ -4,7 +4,9 @@ namespace App\Livewire\Post;
 
 use App\Models\Post;
 use App\Models\Tag;
+use App\Services\NotificationService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -27,6 +29,8 @@ class Edit extends Component
     public $yields;
     public array $ingredients = [];
     public array $steps = [];
+
+    private NotificationService $notificationService;
 
     public function addIngredient()
     {
@@ -93,14 +97,22 @@ class Edit extends Component
         }
 
         $this->post->slug = Str::slug($this->name) . '-' . rand(1000, 9999);
+        $this->post->isApproved = 0;
+
         $this->post->save();
+        $this->notificationService->createApproval( $this->post->id,auth()->user()->id);
+
 
         return $this->success(
-            'Post saved!',
-            redirectTo: '/recipe/' . $this->post->slug
+            'Your post is waiting for approval.',
+            redirectTo: '/user/' . Auth::user()->username,
         );
 
-        // return $this->success('test');
+    }
+
+    public function boot(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
     }
 
 

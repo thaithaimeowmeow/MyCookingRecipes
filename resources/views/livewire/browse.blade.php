@@ -36,7 +36,7 @@
             </div>
 
             <!-- Recipe Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mt-8">
+            <div wire:poll.300ms class="grid grid-cols-1 md:grid-cols-5 gap-6 mt-8">
                 @foreach ($posts as $post)
                     <div wire:key="{{ $post->id }}" class="bg-white rounded-lg shadow-md overflow-hidden">
                         <img src="{{ $post->image }}" class="w-full h-52 object-cover">

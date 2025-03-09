@@ -11,6 +11,8 @@ class Index extends Component
 
     use WithPagination; 
 
+    public $search = '';
+
     public int $perPage = 10;
 
     public $headers = [
@@ -20,11 +22,23 @@ class Index extends Component
     ];
 
 
+    public function updatingSearch()
+    {
+        $this->resetPage(); 
+        $this->perPage = 10;
+    }
+
     public function render()
     {
-        // return view('livewire.admin.tag.index');
+        // $tags = Tag::where('name', 'like', '%' . $this->query . '%') 
+        // ->paginate($this->perPage);
+        $tags = Tag::where(function ($query) {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('slug', 'like', '%' . $this->search . '%');
+        })->paginate($this->perPage); 
+
         return view('livewire.admin.tag.index', [
-            'tags' => Tag::paginate($this->perPage),
+            'tags' =>  $tags,
         ])->layout('components.layouts.admin');
     }
 }

@@ -67,6 +67,8 @@ class Index extends Component
         $this->post = Post::where('slug', $this->slug)
             ->with(['ingredients', 'steps', 'tags','comments.user'])
             ->firstOrFail();
+        if (!$this->post->isApproved)
+            return abort(404);
     }
 
     public function render()
