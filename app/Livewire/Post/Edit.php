@@ -118,6 +118,9 @@ class Edit extends Component
 
     public function mount()
     {
+        if (Auth::user()->IsActive == false) {
+            return abort(403);
+        }
         $this->tags = Tag::All();
         $this->post = Post::where('slug', $this->slug)
             ->firstOrFail();

@@ -4,7 +4,12 @@
         <x-mary-avatar :image="$user->avatar" class="!w-24">
             <x-slot:title class="text-3xl pl-2">
                 {{ $user->username }}
-                <x-mary-button wire:click="Disable account" class="p-[-2] bg-red-500">Disable this account</x-mary-button>
+                @if($user->IsActive == false)
+                <x-mary-button wire:click="enableUser" class="p-[-2] bg-green-500">Enable this user</x-mary-button>
+                @else
+                <x-mary-button wire:click="disableUser" class="p-[-2] bg-red-500">Disable this user</x-mary-button>
+                @endif
+
             </x-slot:title>
 
             <x-slot:subtitle class="text-gray-500 flex flex-col gap-1 mt-2 pl-2">

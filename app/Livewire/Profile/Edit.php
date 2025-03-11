@@ -48,11 +48,10 @@ class Edit extends Component
             $this->validate([
                 'image' => 'image',
             ]);
-        }
-        else{
+        } else {
             return;
         }
-        
+
         // $cloudinaryUploadUrl = cloudinary()->upload($this->image->getRealPath())->getSecurePath();
         $cloudinaryUploadUrl = cloudinary()->upload($this->image->getRealPath(), [
             'folder' => 'avatar',
@@ -68,35 +67,37 @@ class Edit extends Component
         $this->user->email = $this->email;
         $this->user->save();
         $this->success('Information saved!');
-        return $this->redirect(route('user.edit',$this->username));
+        return $this->redirect(route('user.edit', $this->username));
     }
 
     public function changePassword()
     {
-    $this->validate([
-        'password' => [
-            'required',
-            'confirmed',
-            Password::min(8)
-                ->letters() // At least one letter
-                ->mixedCase() // At least one uppercase & one lowercase
-                ->numbers() // At least one number
-                ->symbols() // At least one special character
-        ],
-    ]);
+        $this->validate([
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->letters() // At least one letter
+                    ->mixedCase() // At least one uppercase & one lowercase
+                    ->numbers() // At least one number
+                    ->symbols() // At least one special character
+            ],
+        ]);
 
-    $this->user->update([
-        'password' => Hash::make($this->password),
-    ]);
+        $this->user->update([
+            'password' => Hash::make($this->password),
+        ]);
 
-    $this->success('Password changed successfully!');
-    return $this->redirect(route('user.edit',$this->username));
-    
+        $this->success('Password changed successfully!');
+        return $this->redirect(route('user.edit', $this->username));
     }
 
 
     public function mount()
     {
+        if (Auth::user()->IsActive == false) {
+            return abort(404);
+        }
         if (Auth::user()->username !== $this->username) {
             return redirect()->route('home');
         }

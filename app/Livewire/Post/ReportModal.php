@@ -25,12 +25,16 @@ class ReportModal extends Component
 
     public function submitReport()
     {
+        if (Auth::user()->IsActive == false) {
+            return abort(403);
+        }
         $this->validate();
         $this->notificationService->createReport($this->post_id,Auth::user()->id,$this->content);
         $this->success('Report submitted!');
         $this->reset(['content']);
         $this->reportModal = false;
     }
+    
     public function render()
     {
         return view('livewire.post.report-modal');

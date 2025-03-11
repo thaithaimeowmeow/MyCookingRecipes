@@ -16,6 +16,22 @@ class View extends Component
     public $username;
 
 
+    public function disableUser()
+    {
+        $this->user->IsActive = false; 
+        $this->user->save();
+        $this->success('Action comeplete!');
+        return redirect()->back();
+    }
+
+    public function enableUser()
+    {
+        $this->user->IsActive = true; 
+        $this->user->save();
+        $this->success('Action comeplete!');
+        return redirect()->back();
+    }
+
     
 
     public function deletePostWithID($id)
