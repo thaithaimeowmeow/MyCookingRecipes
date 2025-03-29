@@ -40,6 +40,7 @@ Route::middleware(['web'])->group(function () {
         Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->middleware(IsAdmin::class)->name('admin.dashboard');
     });
 
+    // Route::get('/', \App\Livewire\Homepage::class)->name('home');
     Route::get('/', \App\Livewire\Homepage::class)->name('home');
     Route::get('/browse', \App\Livewire\Browse::class)->name('browse');
     Route::get('/recipe/{slug}', \App\Livewire\Post\Index::class)->name('post.index');

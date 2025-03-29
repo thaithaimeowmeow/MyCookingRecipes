@@ -33,8 +33,7 @@ class Index extends Component
         $this->user = User::where('username', $this->username)
             ->with(['posts'])
             ->firstOrFail();
-        if($this->user->IsActive == false)
-            return abort(404);
+       
     }
     public function render()
     {

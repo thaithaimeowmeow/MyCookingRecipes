@@ -118,9 +118,6 @@ class Create extends Component
 
     public function mount()
     {
-        if (Auth::user()->IsActive == false) {
-            return abort(403);
-        }
         $this->tags = Tag::All();
     }
 

@@ -20,7 +20,25 @@ class Homepage extends Component
 
     public function render()
     {
-        $posts = Post::latest()->paginate($this->perPage);
-        return view('livewire.homepage', ['posts' => $posts]);
+        $posts = Post::where('isApproved', true)
+            ->latest()
+            ->paginate($this->perPage);
+
+        $mostLiked = Post::where('isApproved', true)
+            ->withCount('likers')
+            ->orderByDesc('likers_count')
+            ->take(6)
+            ->get();
+
+        $trending = Post::where('isApproved', true)
+            ->inRandomOrder()
+            ->take(6)
+            ->get();
+
+        return view('livewire.homepage', [
+            'posts' => $posts,
+            'mostLiked' => $mostLiked,
+            'trending' => $trending,
+        ]);
     }
 }

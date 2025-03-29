@@ -25,9 +25,6 @@ class ReportModal extends Component
 
     public function submitReport()
     {
-        if (Auth::user()->IsActive == false) {
-            return abort(403);
-        }
         $this->validate();
         $this->notificationService->createReport($this->post_id,Auth::user()->id,$this->content);
         $this->success('Report submitted!');

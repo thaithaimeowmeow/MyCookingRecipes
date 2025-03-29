@@ -34,9 +34,9 @@
                                     {{ $post->name }}
                                 </a>
                             @elseif($post->user->id == Auth::user()->id)
-                                <a href="/recipe/{{ $post->slug }}/preview" class="text-blue-600 hover:underline">
+                                {{-- <a href="/recipe/{{ $post->slug }}/preview" class="text-blue-600 hover:underline">
                                     {{ $post->name }}
-                                </a>
+                                </a> --}}
                                 <x-mary-badge value="Waiting for approval" class="text-black bg-yellow-300 mt-1 ml-2" />
                             @endif
                         </h3>

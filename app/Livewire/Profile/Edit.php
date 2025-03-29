@@ -95,9 +95,6 @@ class Edit extends Component
 
     public function mount()
     {
-        if (Auth::user()->IsActive == false) {
-            return abort(404);
-        }
         if (Auth::user()->username !== $this->username) {
             return redirect()->route('home');
         }
