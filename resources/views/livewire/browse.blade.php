@@ -13,26 +13,15 @@
                 <input type="text" wire:model.debounce.300="search" placeholder="Search recipes..."
                     class="w-full md:w-1/3 px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-500">
 
-                <!-- Filters -->
-                <select class="px-4 py-2 border rounded-lg">
-                    <option>Latest recipes</option>
-                    <option>Oldest recipes</option>
-                    <option>Most liked</option>
+                <!-- Filter Dropdown -->
+                <select wire:model="selectedTag" class="px-4 py-2 border rounded-lg">
+                    <option value="">Choose a tag</option>
+                    @foreach ($tags as $tag)
+                        <option value="{{ $tag->slug }}">{{ $tag->name }}</option>
+                    @endforeach
                 </select>
 
-                <select class="px-4 py-2 border rounded-lg">
-                    <option>Meal Type</option>
-                    <option>Breakfast</option>
-                    <option>Lunch</option>
-                    <option>Dinner</option>
-                </select>
 
-                <select class="px-4 py-2 border rounded-lg">
-                    <option>Dietary</option>
-                    <option>Vegetarian</option>
-                    <option>Vegan</option>
-                    <option>Gluten-Free</option>
-                </select>
             </div>
 
             <!-- Recipe Grid -->
@@ -63,7 +52,7 @@
             <div class="mt-8 text-center">
                 {{ $posts->links() }}
             </div>
-            
+
 
         </div>
     </div>

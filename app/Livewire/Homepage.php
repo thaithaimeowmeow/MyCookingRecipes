@@ -10,13 +10,7 @@ class Homepage extends Component
 {
     use WithPagination;
 
-    public $perPage = 5;
-
-
-    public function loadMore()
-    {
-        $this->perPage += 5;
-    }
+    public $perPage = 6;
 
     public function render()
     {
@@ -30,15 +24,15 @@ class Homepage extends Component
             ->take(6)
             ->get();
 
-        $trending = Post::where('isApproved', true)
-            ->inRandomOrder()
-            ->take(6)
-            ->get();
+        // $trending = Post::where('isApproved', true)
+        //     ->inRandomOrder()
+        //     ->take(6)
+        //     ->get();
 
         return view('livewire.homepage', [
             'posts' => $posts,
             'mostLiked' => $mostLiked,
-            'trending' => $trending,
+            // 'trending' => $trending,
         ]);
     }
 }

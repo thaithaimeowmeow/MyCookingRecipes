@@ -9,18 +9,90 @@
         </div>
     </div>
 
-    <!-- Featured Categories -->
+    <!-- Featured Categories (Hardcoded Frontend) -->
     <div class="max-w-7xl mx-auto mt-12 px-6">
         <h2 class="text-3xl font-semibold text-center">Browse by Category</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
-            @foreach ([['name' => 'Breakfast', 'image' => 'https://source.unsplash.com/200x200/?breakfast'], ['name' => 'Lunch', 'image' => 'https://source.unsplash.com/200x200/?lunch'], ['name' => 'Dinner', 'image' => 'https://source.unsplash.com/200x200/?dinner'], ['name' => 'Dessert', 'image' => 'https://source.unsplash.com/200x200/?dessert']] as $category)
-                <div class="block bg-white shadow-md rounded-lg p-4 text-center">
-                    <img src="{{ $category['image'] }}" class="w-20 h-20 mx-auto">
-                    <h3 class="mt-2 font-semibold">{{ $category['name'] }}</h3>
-                </div>
-            @endforeach
+            <!-- Easy -->
+            @php
+                $easyPost =
+                    $posts
+                        ->filter(function ($post) {
+                            return $post->tags->contains('slug', 'easy');
+                        })
+                        ->first() ?? null;
+
+                $hardPost =
+                    $posts
+                        ->filter(function ($post) {
+                            return $post->tags->contains('slug', 'hard');
+                        })
+                        ->first() ?? null;
+
+                $breakfastPost =
+                    $posts
+                        ->filter(function ($post) {
+                            return $post->tags->contains('slug', 'breakfast');
+                        })
+                        ->first() ?? null;
+
+                $weekendsPost =
+                    $posts
+                        ->filter(function ($post) {
+                            return $post->tags->contains('slug', 'weekends');
+                        })
+                        ->first() ?? null;
+            @endphp
+
+
+
+            <div class="block bg-white shadow-md rounded-lg p-4 text-center">
+                <a href="{{ route('browse', ['selectedTag' => 'easy']) }}" class="block">
+                    <div class="w-20 h-20 mx-auto overflow-hidden">
+                        <img src="{{ $easyPost ? $easyPost->image : 'https://source.unsplash.com/200x200/?cooking,easy' }}"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="mt-2 font-semibold">Easy</h3>
+                </a>
+            </div>
+
+
+            <!-- Hard -->
+            <div class="block bg-white shadow-md rounded-lg p-4 text-center">
+                <a href="{{ route('browse', ['selectedTag' => 'hard']) }}">
+                    <div class="w-20 h-20 mx-auto overflow-hidden">
+                        <img src="{{ $hardPost ? $hardPost->image : 'https://source.unsplash.com/200x200/?cooking,easy' }}"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="mt-2 font-semibold">Hard</h3>
+                </a>
+            </div>
+
+            <!-- Breakfast -->
+            <div class="block bg-white shadow-md rounded-lg p-4 text-center">
+                <a href="{{ route('browse', ['selectedTag' => 'breakfast']) }}">
+                    <div class="w-20 h-20 mx-auto overflow-hidden">
+                        <img src="{{ $breakfastPost ? $breakfastPost->image : 'https://source.unsplash.com/200x200/?cooking,easy' }}"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="mt-2 font-semibold">Breakfast</h3>
+                </a>
+            </div>
+
+            <!-- Weekends -->
+            <div class="block bg-white shadow-md rounded-lg p-4 text-center">
+                <a href="{{ route('browse', ['selectedTag' => 'weekends']) }}">
+                    <div class="w-20 h-20 mx-auto overflow-hidden">
+                        <img src="{{ $weekendsPost ? $weekendsPost->image : 'https://source.unsplash.com/200x200/?cooking,easy' }}"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="mt-2 font-semibold">Weekends</h3>
+                </a>
+            </div>
+
         </div>
     </div>
+
 
     <!-- Latest Recipes -->
     <div class="max-w-7xl mx-auto mt-12 px-6">
@@ -44,7 +116,8 @@
                                 0 like
                             @endif
                         </p>
-                        <a href="{{ route('post.index', $item->slug) }}" class="text-blue-600 mt-auto inline-block">View
+                        <a href="{{ route('post.index', $item->slug) }}"
+                            class="text-blue-600 mt-auto inline-block">View
                             Recipe →</a>
                     </div>
                 </div>
@@ -73,7 +146,7 @@
         </div>
 
         <!-- Trending Recipes Section -->
-        <h2 class="text-3xl font-semibold text-center mt-12">Trending Recipes</h2>
+        {{-- <h2 class="text-3xl font-semibold text-center mt-12">Trending Recipes</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             @foreach ($trending as $item)
                 <div
@@ -91,7 +164,8 @@
                     </div>
                 </div>
             @endforeach
-        </div>
+        </div> --}}
+        
         <!-- Custom Animations -->
         <style>
             @keyframes fadeIn {
@@ -116,6 +190,7 @@
 
     <!-- Load More Button -->
     <div class="text-center mt-8">
-        <x-mary-button Link="/browse" class="bg-blue-500 text-white px-6 py-3 rounded-lg">Browse More Recipes</x-mary-button >
+        <x-mary-button Link="/browse" class="bg-blue-500 text-white px-6 py-3 rounded-lg">Browse More
+            Recipes</x-mary-button>
     </div>
 </div>
